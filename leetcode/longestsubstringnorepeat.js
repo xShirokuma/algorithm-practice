@@ -4,20 +4,17 @@
  */
 var lengthOfLongestSubstring = function (s) {
   let maxLen = 0
-  for (let i = 0; i < s.length - maxLen; i++) {
-    let currMaxLen = 0
-    let hash = new Map()
-    for (let j = i; j < s.length; j++) {
-      if (hash.get(s[j]) !== undefined) {
-        break
-      } else {
-        hash.set(s[j], j)
-        currMaxLen++
-        if (currMaxLen > maxLen) {
-          maxLen = currMaxLen
-        }
-      }
+  let start = 0
+  let hash = new Map()
+
+  for (let end = 0; end < s.length; end++) {
+    if (hash.has(s[end]) && hash.get(s[end]) >= start) {
+      start = hash.get(s[end]) + 1
     }
+
+    hash.set(s[end], end)
+    maxLen = Math.max(maxLen, end - start + 1)
   }
+
   return maxLen
 }
